@@ -1,12 +1,12 @@
+# pylint: disable=E0401
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from tyche.route import rule
+from route import rule
 
 app = Flask(__name__)
-app.register_blueprint(rule)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-CORS(app, supports_credentials=True)
 app.config.from_object('default_config')
 app.config.from_envvar('TYCHE_CONFIG')
 
@@ -19,4 +19,5 @@ def HelloWorld():
 
 
 if __name__ == '__main__':
+    app.register_blueprint(rule,url_prefix='/rule')
     app.run()
